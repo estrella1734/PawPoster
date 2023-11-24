@@ -64,8 +64,8 @@ public class PetDAO {
 	 * @return Pet 寵物的資訊，包含主人的資訊。
 	 */
 	public Pet findPetWithMemberByID(int petID) throws SQLException {
-		final String SQL = "SELECT * FROM [PawPoster].[dbo].[Pet] AS [p]" + " LEFT JOIN [PawPoster].[dbo].[Member] AS [m]"
-				+ " ON [p].[mID] = [m].[mID]" + " WHERE [p].[pID] = ?";
+		final String SQL = "SELECT * FROM [PawPoster].[dbo].[Pet] AS [p]"
+				+ " LEFT JOIN [PawPoster].[dbo].[Member] AS [m]" + " ON [p].[mID] = [m].[mID]" + " WHERE [p].[pID] = ?";
 
 		PreparedStatement preState = conn.prepareStatement(SQL);
 		preState.setInt(1, petID);
@@ -110,8 +110,8 @@ public class PetDAO {
 	 * @return List<Pet> 所有寵物的集合，包含主人的資訊。
 	 */
 	public List<Pet> findAllPetWithMember() throws SQLException {
-		final String SQL = "SELECT * FROM [PawPoster].[dbo].[Pet] AS [p]" + " LEFT JOIN [PawPoster].[dbo].[Member] AS [m]"
-				+ " ON [p].[mID] = [m].[mID]";
+		final String SQL = "SELECT * FROM [PawPoster].[dbo].[Pet] AS [p]"
+				+ " LEFT JOIN [PawPoster].[dbo].[Member] AS [m]" + " ON [p].[mID] = [m].[mID]";
 
 		PreparedStatement preState = conn.prepareStatement(SQL);
 		ResultSet rs = preState.executeQuery();
@@ -128,10 +128,8 @@ public class PetDAO {
 
 			byte[] b = rs.getBytes("pPhoto");
 			String base64String = Base64.getEncoder().encodeToString(b);
-			p.setpPhotoBase64("data:image/jpeg;base64,"+base64String);
-			
-			
-			
+			p.setpPhotoBase64("data:image/jpeg;base64," + base64String);
+
 			Member m = new Member();
 			m.setmID(rs.getInt("mID"));
 			m.setEmail(rs.getString("email"));
@@ -200,13 +198,17 @@ public class PetDAO {
 	 * 
 	 * @throws SQLException
 	 */
-	public void deletePetByID(int petID) throws SQLException {
+	public int deletePetByID(int petID) throws SQLException {
 		final String SQL = "DELETE FROM [PawPoster].[dbo].[Pet] WHERE [pID] = ?";
 
 		PreparedStatement preState = conn.prepareStatement(SQL);
 		preState.setInt(1, petID);
-		preState.execute();
+
+		int rowCount = preState.executeUpdate();
+
 		preState.close();
+
+		return rowCount;
 	}
 
 	/**

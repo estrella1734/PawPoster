@@ -13,6 +13,30 @@ import tw.com.eeit.petforum.util.ConnectionFactory;
 
 public class MemberService {
 
+	
+	public String removePet(int pID) {
+		try (Connection conn = ConnectionFactory.getConnection();) {
+
+			PetDAO petDAO = new PetDAO(conn);
+			int rowCount = petDAO.deletePetByID(pID);
+			
+			if(rowCount==0) {
+				return "刪除失敗";
+			}
+			
+			if(rowCount!=0) {
+				return "刪除成功";
+						
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 	public void addPet(Pet p) {
 		try (Connection conn = ConnectionFactory.getConnection();) {
 
