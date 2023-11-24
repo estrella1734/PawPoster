@@ -13,43 +13,55 @@ import tw.com.eeit.petforum.util.ConnectionFactory;
 
 public class MemberService {
 
+	public void addPet(Pet p) {
+		try (Connection conn = ConnectionFactory.getConnection();) {
+
+			PetDAO petDAO = new PetDAO(conn);
+			petDAO.insertPet(p);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public Member getMemberByID(int memberID) {
+		try (Connection conn = ConnectionFactory.getConnection();) {
+			MemberDAO memberDAO = new MemberDAO(conn);
+			Member m = memberDAO.findMemberWithPetByID(memberID);
+			return m;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public Member login(String email, String password) {
-		try(Connection conn = ConnectionFactory.getConnection();) {
+		try (Connection conn = ConnectionFactory.getConnection();) {
 			MemberDAO memberDAO = new MemberDAO(conn);
 			Member m = memberDAO.findMemberByEmailAndPassword(email, password);
 			return m;
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	public List<Pet> getAllPets(){
-		
-		try(Connection conn = ConnectionFactory.getConnection();) {
+
+	public List<Pet> getAllPets() {
+
+		try (Connection conn = ConnectionFactory.getConnection();) {
 			PetDAO petDAO = new PetDAO(conn);
 			List<Pet> petList = petDAO.findAllPetWithMember();
 			return petList;
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	
-	
-	
+
 	/**
 	 * 呼叫此方法並傳入Likes物件(須包含日期、會員ID、寵物ID)以切換「按讚」狀態。<br>
 	 * 1.若資料庫有按讚記錄則移除<br>
