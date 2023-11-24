@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import tw.com.eeit.petforum.model.bean.Member;
@@ -125,6 +126,12 @@ public class PetDAO {
 			p.setType(rs.getString("type"));
 			p.setpPhoto(rs.getBytes("pPhoto"));
 
+			byte[] b = rs.getBytes("pPhoto");
+			String base64String = Base64.getEncoder().encodeToString(b);
+			p.setpPhotoBase64("data:image/jpeg;base64,"+base64String);
+			
+			
+			
 			Member m = new Member();
 			m.setmID(rs.getInt("mID"));
 			m.setEmail(rs.getString("email"));
