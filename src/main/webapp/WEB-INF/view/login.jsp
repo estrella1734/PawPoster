@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +24,7 @@
 					placeholder="Password" name="password" required> <label>密碼</label>
 			</div>
 			<div class="checkbox my-3">
-				<label> <input type="checkbox" name="remeberMe"> 記住我
+				<label> <input type="checkbox" name="rememberMe"> 記住我
 				</label>
 			</div>
 			<div class="mb-2">
